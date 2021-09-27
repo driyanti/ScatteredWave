@@ -165,5 +165,5 @@ cc  Fast Fourier Transform in t-domain
       CLOSE(75)
       CLOSE(80)
 700   STOP
-end
+end program main
        
