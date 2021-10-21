@@ -16,7 +16,7 @@ $(TRG): $(OBJS3D7) cntrl.h prms3d.h grids.h
 	$(FC) $(FFLAGS) -c $<
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< 
+	$(CC) $(CFLAGS) -c $<
 
 clean:
 	-rm -f *.tempt *.o *.e *.loger
