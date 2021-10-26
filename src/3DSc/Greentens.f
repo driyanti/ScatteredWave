@@ -62,29 +62,29 @@ c      nk_totpos = 0
 c length_k_1=length_k_2 denotes the length interval in the wavenumber domain c(k_x,k_y)
       
       do ii=1,ndim/2+1
-	k_x(ii) = float(ii-1)*delta_k
-	k_y(ii) = k_x(ii)
+            k_x(ii) = float(ii-1)*delta_k
+            k_y(ii) = k_x(ii)
       end do
        
       do ii=ndim/2+2,ndim
-	k_x(ii) = float(ii-1)*delta_k-length_k
-	k_y(ii) = k_x(ii)	
+	   k_x(ii) = float(ii-1)*delta_k-length_k
+	   k_y(ii) = k_x(ii)	
       end do
       
       CALL waveform(wlin)
                    
 		               
-          epsilon = delta_k/1000d0
-          p1 = epsilon
-          p2 = epsilon
+      epsilon = delta_k/1000d0
+      p1 = epsilon
+      p2 = epsilon
         
-	  p1=0d0
-	  p2=0d0
+	p1=0d0
+	p2=0d0
 	  
-	  psum = p1**2 + p2**2
-	  pabs = sqrt(psum)
+	psum = p1**2 + p2**2
+	pabs = sqrt(psum)
           
-	  psrc= cmplx(1.0,0.0)
+	psrc= cmplx(1.0,0.0)
 
 c          
 c
@@ -95,9 +95,9 @@ c
 	
         DO layer = 1,nlay+1
           hlpvar        = sqrt(-psum + 1.d0/alpha(layer)**2)
-	  qalpha(layer) = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar)) 
+	    qalpha(layer) = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar))
           hlpvar        = sqrt(-psum + 1.d0/beta(layer)**2)
-	  qbeta(layer)  = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar)) 
+	    qbeta(layer)  = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar))
         END DO	  ! end layer loop
         
 
@@ -198,10 +198,10 @@ c
 	      greens_p(1,kcnt) = wlin(omegacnt)*psrc*
      .              (ci*(p1/pabs)*b_rcv(2)-ci*(p2/pabs)*b_rcv(3))
      
-              greens_p(2,kcnt) = wlin(omegacnt)*psrc*
+            greens_p(2,kcnt) = wlin(omegacnt)*psrc*
      .              (ci*(p2/pabs)*b_rcv(2)+ci*(p1/pabs)*b_rcv(3))
      
-              greens_p(3,kcnt) = wlin(omegacnt)*(b_rcv(1))*psrc
+            greens_p(3,kcnt) = wlin(omegacnt)*(b_rcv(1))*psrc
      
 	END IF
                       
@@ -232,7 +232,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
        do ii=1,ns
          df(ii) = w(ii,1)
-	 wr(ii) = w(ii,2)
+	   wr(ii) = w(ii,2)
          wi(ii) = 0.0           
        end do
        
