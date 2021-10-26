@@ -1,0 +1,14 @@
+  1              number of layers
+  
+  1600.           CS shear wavespeed
+  3000.           CP compressional wavespeed
+  0.1             D  dissipation
+  1500.           rho density
+  400.            thickness of the layer
+
+  3100.           CS shear wavespeed
+  6000.           CP compressional wavespeed
+  0.1             D  dissipation
+  3000.           rho density
+
+  

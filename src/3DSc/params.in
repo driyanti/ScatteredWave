@@ -1,0 +1,11 @@
+test        = y
+freqtest    = n
+nsamp       = 256
+dt          = 3.900e-3
+freqmax     = 47.
+xpos_src    = 64.
+ypos_src    = 64.
+zpos_src    = 150.
+zrcvpos     = 550.
+rcv_spac    = 1.0
+nr_rcv      = 128

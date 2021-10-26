@@ -1,0 +1,12 @@
+height  = 4.00d0 	! height of embankment (meters) 
+width   = 10.00d0 	! half width of embankment  (meters)
+gridsize = 0.250d0
+density = 2000.d0   	! generates a higher speed for P and S waves
+
+#height  = 0.75d0 	! height of embankment (meters) 
+#width   = 3.5d0 	! half width of embankment  (meters)
+#ysubintv = 1
+#zsubintv = 1
+bulk = 200.000e6
+shear = 25.0000e6
+dissipation = 2.0

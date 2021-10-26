@@ -1,0 +1,28 @@
+14		! # subintervals y-dimension
+3  		! # subintervals z-dimension
+
+26		! subintervals y-dimension
+6  		! # subintervals z-dimension
+
+2	   ! # subintervals y-dimension
+1	   ! # subintervals z-dimension
+***************************************
+2100.
+2000.
+2000.
+2100.
+
+
+#######################################
+sorting for the density of the elements
+
+FREE SURFACE
+---------------------------------------
+      |     |	  |	|     |
+      |  1  |  2  |  3  |  4  |
+      |     |	  |	|     |
+       -----------------------
+      |     |	  |	|     |
+      |  5  |  6  |  7  |  8  |
+      |     |	  |	|     |
+       -----------------------

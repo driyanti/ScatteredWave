@@ -1,0 +1,118 @@
+####################################################################
+# We don't want to hear anything
+#.SILENT:
+######################################################################
+#
+# Some global definitions
+EXEDIR = .
+LIBDIR= /home/mf/dwi/Project2/FGreen/Lib
+PVMDIR = $(PVM_ROOT)
+PIOPATH = /home/mf/dwi/PVM/
+SIOPATH = ./
+
+# - Shell
+SHELL = /bin/sh
+
+# - Fortran and C compilers, and C preprocessor 
+#FCOMP = g77
+FCOMP = g77
+
+# - Libraries for linking
+ALIBS = $(LIBDIR)/lapackLinux.a $(LIBDIR)/tmglibLinux.a $(LIBDIR)/blasLinux.a
+PLIBS = -lfpvm3 -lgpvm3 -lpvm3
+
+# - Directories of libraries
+#ALINKDIR = -Wl,-L${LIBDIR} -Wl
+PLINKDIR = -Wl,-L${PVMDIR}/lib/LINUX/
+PINCLUDEFLAGS = ${PVMDIR}/include/
+
+# - Include files
+INCLUDE = bounds.h param.h grid.h path.h num.h
+
+# - Flags for compiling. Should contain '-c', rest is arbitrary
+FFLAGS = -c -Wall  -g
+CFLAGS = 
+
+# - Name of the executable (gets suffixed by '.exe')
+HOSTNAME = host_incfield.exe
+NODENAME = node_incfield.exe
+
+# - Default rules
+.f.o: $(INCLUDE)
+	$(FCOMP)  $(FFLAGS) -I$(PINCLUDEFLAGS) $<
+.F.o:
+	$(FCOMP) -I$(PINCLUDEFLAGS) $(FFLAGS) $<
+.c.o:   $(CCOMP) $(CFLAGS) $<
+####################################################################
+#
+# Source programs
+
+
+SINGLE = mainprogram.o\
+         Greentens.o\
+         green_halfspace.o\
+         mksource.o \
+         mkmatD.o \
+         mkmatDh.o\
+         mkmatE.o readpar.o initial.o zgemm.o\
+         zgemv.o xerbla.o lsame.o matproloog.o calcfield.o 
+BOTH   = initmsg.o files.o getpar.o
+
+       
+####################################################################   
+#
+# Creation of the executables, linking by means of Fortran-compiler
+donothing::
+	echo 'Usage:'
+	echo ' make p : make PVM version for single line (perpendicular or parallel)'
+	echo ' make s : make standalone version for single line (perpendicular or parallel)'
+p::
+	echo '#define PARALLEL' > parallel.h
+	echo "      character*`echo $(PIOPATH) | awk '{print length($1)}'` iopath" > path.h
+	echo "      parameter(iopath='$(PIOPATH)')" >> path.h
+	make host
+	make node
+	rm -f $(PIOPATH)/$(HOSTNAME)
+	rm -f $(PIOPATH)/$(NODENAME)
+	cp $(HOSTNAME) $(PIOPATH)
+	cp $(NODENAME) $(PIOPATH)
+
+s::
+	echo '#define STANDALONE' > parallel.h
+	echo "      character*`echo $(SIOPATH) | awk '{print length($1)}'` iopath" > path.h
+	echo "      parameter(iopath='$(SIOPATH)')" >> path.h
+	make single
+
+host: $(HOST) $(HOST_SUB) $(BOTH)
+	$(FCOMP) $(HOST) $(HOST_SUB) $(BOTH) $(CLIBS) $(ALINKDIR) $(PLINKDIR) -o $(EXEDIR)/$(HOSTNAME) $(ALIBS) $(PLIBS)
+
+node: $(NODE) $(NODE_SUB) $(BOTH) 
+	$(FCOMP) $(NODE) $(NODE_SUB) $(BOTH) $(CLIBS) $(ALINKDIR) $(PLINKDIR) -o $(EXEDIR)/$(NODENAME) $(ALIBS) $(PLIBS)
+
+single: $(SINGLE) $(NODE_SUB) $(BOTH) $(HOST_SUB)
+	$(FCOMP) $(SINGLE) $(NODE_SUB) $(HOST_SUB) $(BOTH) $(CLIBS) $(ALINKDIR) $(PLINKDIR) -o $(EXEDIR)/incfield.exe $(ALIBS) $(PLIBS) -g
+
+all:: 	host node clean 
+
+clean: 	
+	rm -f *.o
+
+hostmain.o : hostmain.F  bounds.h param.h record.h num.h mypvm.h cluster.h
+hostcomm.o : hostcomm.F  bounds.h param.h grid.h path.h num.h 
+nodemain.o : nodemain.F  bounds.h param.h grid.h path.h num.h 
+nodecomm.o : nodecomm.F  bounds.h param.h grid.h path.h num.h 
+mainprogram.o : mainprogram.f  bounds.h param.h record.h num.h
+Greentens.o : Greentens.f  bounds.h param.h num.h
+green_halfspace.o : green_halfspace.f bounds.h param.h num.h embank.h
+initial.o : initial.f  bounds.h param.h num.h record.h
+readpar.o : readpar.f  bounds.h param.h record.h path.h num.h 
+matproloog.o : matproloog.f  bounds.h param.h  num.h 
+mkmatRuRdTuTd.o :mkmatRuRdTuTd.f  bounds.h param.h num.h 
+mksource.o : mksource.f  bounds.h param.h num.h 
+calcfield.o : calcfield.f  bounds.h param.h num.h 
+mkmatE.o : mkmatE.f  bounds.h param.h num.h 
+mkmatD.o : mkmatD.f  bounds.h param.h num.h 
+mkmatDh.o : mkmatDh.f  bounds.h param.h num.h 
+initmsg.o : initmsg.c 
+files.o : files.c 
+getpar.o : getpar.c

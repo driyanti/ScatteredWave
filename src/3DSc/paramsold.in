@@ -1,0 +1,23 @@
+test        = y
+freqtest    = n
+nsamp       = 512
+dt          = 3.000e-3
+tot_inc_pmin = 4.00
+tot_inc_pmax = 0.400
+tot_inc_deltap  = 0.5000
+velo_src    = 25.
+freqmin     = 2.5
+freqstart   = 20.
+freqend     = 25.
+freqmax     = 47.
+xpos_src    = 32.
+ypos_src    = 32.
+zpos_src    = 4.5
+perpendicular = y 
+grid        = n
+xrcvpos     = 0.000
+yrcvpos     = 1.0000
+zrcvpos     = 0.
+rcv_spac    = 0.5000
+nr_rcv      = 20
+
