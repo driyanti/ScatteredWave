@@ -4,6 +4,7 @@ c Author      : Christina Dwiriyanti
 c Last changes: December 2002
 c Language    : Fortran 77 
 c Description : Main progroam to calculate the Greens tensor in the time domain
+c               Reference: Brian Kennet's "Seismic wave propagation in stratfied media"
 c 
       IMPLICIT NONE
       

@@ -20,11 +20,10 @@ c
       integer	  kcnt,wavecnt,layer,wavecntx,ii,omegacnt
       
       real*8 	  p_y(2*maxksamp+1),ptaper(2*maxksamp+1),omega
-                             
+
       real*8      p1,p2,pabs,psum,k_x(ndim),k_y(ndim),epsilon
-      
+
       real*8      length_k,delta_k,rcvlevel,srclevel,p_x(2*maxksamp+1)
-      
       
       complex*16  matD(4,4),matDh(2,2),Su(3,3),Sd(3,3),psrc,wlin(ns),
      .		  v_src_min(6),v_src_plus(6),v_rcv(6),b_rcv(6),hlpvar,
@@ -33,7 +32,7 @@ c
       complex  greens_p(dim,dim),greens_h(dim,dim)
 
       common/pvalues/p_y,p_x,ptaper
-            
+
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c
 c v_src_min 	  	wavefield above src level
@@ -78,35 +77,34 @@ c length_k_1=length_k_2 denotes the length interval in the wavenumber domain c(k
       p1 = epsilon
       p2 = epsilon
         
-	p1=0d0
-	p2=0d0
+	p1 = 0d0
+	p2 = 0d0
 	  
 	psum = p1**2 + p2**2
 	pabs = sqrt(psum)
-          
-	psrc= cmplx(1.0,0.0)
+	psrc = cmplx(1.0,0.0)
 
-c          
 c
 c initialize q_alpha and q_beta with appropriate signs
 c sign of q_alpha and q_beta should correspond to the fourier transform
 c see De Hoop (waves in elastic media, dissipative medium and our fourier trnsf)
 c
 	
-        DO layer = 1,nlay+1
+      DO layer = 1,nlay+1
           hlpvar        = sqrt(-psum + 1.d0/alpha(layer)**2)
 	    qalpha(layer) = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar))
           hlpvar        = sqrt(-psum + 1.d0/beta(layer)**2)
 	    qbeta(layer)  = cmplx(abs(dble(hlpvar)),dble(-ci*hlpvar))
-        END DO	  ! end layer loop
+      END DO	  ! end layer loop
         
 
 c        
 c construct matDcombi matrix to be used later
 c
- 	CALL mkD(pabs,matD,rcvlayer)          
+ 	
+      CALL mkD(pabs,matD,rcvlayer)          
           	
-        CALL mkDh(matDh,rcvlayer)
+      CALL mkDh(matDh,rcvlayer)
 
 c
 c matrices SU and SD are constructed
@@ -129,18 +127,14 @@ c
 	CALL matrix_proloog(pabs,omega,Su,Sd,srclevel)
 	        
 	DO kcnt = 1,dim	! for each force direction
-	    
             
-             epsilon = delta_k/1000d0
-             p1 = epsilon
-             p2 = epsilon
-             
-	     p1=0d0
-	     p2=0d0
-
-             psrc = exp(-ci*omega*(p1*srcpos(1)+p2*srcpos(2)))
-
-             psrc= cmplx(1.0,0.0)
+            epsilon = delta_k/1000d0
+            p1 = epsilon
+            p2 = epsilon
+	      p1 = 0d0
+	      p2 = 0d0
+            psrc = exp(-ci*omega*(p1*srcpos(1)+p2*srcpos(2)))
+            psrc= cmplx(1.0,0.0)
 	     
 c at source level the field in terms of up- and downgoing waves 
 c is constructed.
@@ -151,8 +145,8 @@ c
 	  
 	  CALL mksource(p1,p2,omega,Su,Sd,v_src_min,v_src_plus,kcnt)
                         
-          CALL calcfield(pabs,omega,v_src_min,v_src_plus,v_rcv,
-     .         rcvlevel,srclevel)
+        CALL calcfield(pabs,omega,v_src_min,v_src_plus,v_rcv,
+     .                 rcvlevel,srclevel)
      
 c
 c DISPLACEMENTS
@@ -184,14 +178,13 @@ c
 
           IF ((p2.eq.0.d0).and.(p1.eq.0.d0)) THEN
             
-     
 	      greens_p(1,kcnt) = wlin(omegacnt)*psrc*
      .              (ci*(b_rcv(2)-b_rcv(3))/sqrt(2d0))
      
-              greens_p(2,kcnt) = wlin(omegacnt)*psrc*
+            greens_p(2,kcnt) = wlin(omegacnt)*psrc*
      .              (ci*(b_rcv(2)+b_rcv(3))/sqrt(2d0))
      
-              greens_p(3,kcnt) = wlin(omegacnt)*(b_rcv(1))*psrc
+            greens_p(3,kcnt) = wlin(omegacnt)*(b_rcv(1))*psrc
 
 	    ELSE !NOT ((p2.eq.0.d0).and.(p1.eq.0.d0))
 
@@ -260,11 +253,11 @@ cccc    implicit double precision (a-h,o-z)
      1          nd,ndh,ndim,ndimm1,nh,nhdim
 c
 c
-        pi=4d0*datan(1d0)
+      pi=4d0*datan(1d0)
 	nhdim=ndim/2
 	ndimm1=ndim-1
 	index=1
-	
+
 	do 10 nd=1,ndimm1
 	  if (nd.ge.index) goto 4
 	  rreh=rre(index)
@@ -280,7 +273,7 @@ c
 	  goto 6
 8	  index=index+k
 10	continue
-	
+
 	do 40 ml=1,mlog
 	  mlk=2**ml
 	  mhlk=mlk/2
@@ -322,5 +315,5 @@ c
 50        continue
 64        return
           end
-	  
+
 ccccccccccccccccccccccccccccccccccccccccccc
