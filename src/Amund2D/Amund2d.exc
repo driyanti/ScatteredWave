@@ -1,0 +1,9 @@
+to compile :
+make
+
+to execute :
+./demul.e
+
+to clean object files :
+make clean
+

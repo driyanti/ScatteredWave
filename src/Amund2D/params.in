@@ -1,0 +1,25 @@
+
+         pi = 4. * atan (1.)
+         dt = 0.004
+         nf = 2048 
+      nsamp = 1024 
+         ns = 1024 
+         nx = 1024
+        x3s = 20.
+        x3r = 80.
+        x1s = 50.
+         dx = 20. 
+         df = 1./(nf*dt)
+         f1 = 2.
+         f2 = 80.
+        nf1 = int (f1/df)
+        nf2 = int (f2/df)
+        dw  = 2.*pi*df
+        ci  = cmplx(0.,1.)
+        c0  = cmplx(0.,0.)
+        eps = 0.025 
+        stab = 0.05
+        ntrac= 189   
+        ntot = ntrac*ntrac
+        dt0 = 0.0
+
